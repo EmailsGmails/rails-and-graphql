@@ -14,10 +14,12 @@ class GraphqlController < ApplicationController
       # Query context goes here, for example:
       # current_user: current_user,
     }
-    result = RailsAndGraphqlSchema.execute(query, variables: variables, context: context, operation_name: operation_name)
+    result = RailsAndGraphqlSchema.execute(query, variables:, context:,
+                                                  operation_name:)
     render json: result
   rescue StandardError => e
     raise e unless Rails.env.development?
+
     handle_error_in_development(e)
   end
 

@@ -1,18 +1,26 @@
+# frozen_string_literal: true
+
 module Mutations
   class CreateUserMutation < BaseMutation
+    graphql_name 'createUser'
+
     argument :name, String, required: true
     argument :email, String, required: true
     argument :password, String, required: true
 
     field :user, Types::UserType, null: true
-    field :errors, [String], null: false
+    field :errors, Types::ValidationErrorsType, null: true
 
-    def resolve(name:, email:, password:)
-      user = User.new(name: name, email: email, password: password)
+    def resolve(args)
+      user = User.new(args)
+
       if user.save
-        { user: user, errors: [] }
+        confirmation_token = user.generate_confirmation_token
+        UserMailer.confirmation(user, confirmation_token).deliver_now
+
+        { user:, success: true }
       else
-        { user: nil, errors: user.errors.full_messages }
+        { errors: user.errors, success: false }
       end
     end
   end

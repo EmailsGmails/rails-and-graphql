@@ -4,7 +4,6 @@ FactoryBot.define do
   factory :post do
     title { FFaker::Lorem.sentence }
     content { FFaker::Lorem.paragraph }
-
-    association :user
+    user { association :user }
   end
 end

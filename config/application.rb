@@ -3,6 +3,7 @@
 require_relative 'boot'
 
 require 'rails/all'
+require 'byebug'
 require 'dotenv/load'
 
 # Require the gems listed in Gemfile, including any gems

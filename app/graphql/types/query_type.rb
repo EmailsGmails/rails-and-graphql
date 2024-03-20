@@ -19,6 +19,12 @@ module Types
       ids.map { |id| context.schema.object_from_id(id, context) }
     end
 
+    field :who_am_i, String, null: false,
+                             description: 'Who am I'
+    def who_am_i
+      "You've authenticated as #{context[:current_user]&.email || 'guest'}."
+    end
+
     field :users, resolver: Queries::AllUsersQuery
     field :user, resolver: Queries::UserByIdQuery
     field :posts_by_user, resolver: Queries::PostsByUserIdQuery

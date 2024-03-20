@@ -2,15 +2,15 @@
 
 require 'rails_helper'
 
-RSpec.describe '#createUser mutation' do
+RSpec.describe Mutations::Users::CreateUser, type: :request do
   let(:mutation) do
     <<~GQL
-        mutation createUser($name: String!, $email: String!, $password: String!) {
-          createUser(input: {
-            name: $name
-            email: $email
-            password: $password
-          }) {
+      mutation createUser($name: String!, $email: String!, $password: String!) {
+        createUser(input: {
+          name: $name
+          email: $email
+          password: $password
+        }) {
           user {
             id
             email
@@ -29,11 +29,7 @@ RSpec.describe '#createUser mutation' do
   it 'is successful with correct data' do
     name = FFaker::Name.name
     email = FFaker::Internet.email
-    result = RailsAndGraphqlSchema.execute(mutation, variables: {
-                                             name:,
-                                             email:,
-                                             password: SecureRandom.hex
-                                           })
+    result = RailsAndGraphqlSchema.execute(mutation, variables: { name:, email:, password: SecureRandom.hex })
 
     expect(result.dig('data', 'createUser', 'user', 'email')).to eq(email)
     expect(result.dig('data', 'createUser', 'user', 'name')).to eq(name)
@@ -60,7 +56,7 @@ RSpec.describe '#createUser mutation' do
     result = RailsAndGraphqlSchema.execute(mutation, variables: {
                                              name: FFaker::Name.name,
                                              email: FFaker::Internet.email,
-                                             password: ""
+                                             password: ''
                                            })
 
     expect(result.dig('data', 'createUser', 'user')).to be_nil

@@ -32,6 +32,8 @@ gem 'dotenv-rails'
 gem 'graphql'
 gem 'rubocop'
 
+gem 'jwt', '~> 2.8'
+
 # Use Redis adapter to run Action Cable in production
 # gem "redis", ">= 4.0.1"
 
@@ -52,6 +54,7 @@ gem 'bootsnap', require: false
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
+  gem 'byebug'
   gem 'database_cleaner', '~> 2.0'
   gem 'database_cleaner-active_record', '~> 2.1'
   gem 'debug', platforms: %i[mri windows]
